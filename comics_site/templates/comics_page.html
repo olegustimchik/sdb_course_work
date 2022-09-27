@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{%block sidebar %}
+  <a href={% url "homepage"%}>Main page</a>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+  <div class = "comics_line">
+  {%for item in comics_item %}
+    <div class = "comics_item">
+      <div class="comcis_item_img">
+        <img src="{% static item.path_image %}"  alt="comics image" width=500 height=800>
+      </div>
+      <div class="comics_item_und_img">
+        <h3>
+          <a href={% url "comics_render" comics_title=item.comics_t %}> {{item.comics_t}}</a>
+        </h3>
+        {% if request.session.user_role == 1 %}
+          <h5>(<a href={% url "delete_item" _code_=1 name=item.comics_t %}>Delete</a>)
+              (<a href={% url "edit_comics" id=item.comics_id %}>Edit</a>)
+          </h5>
+        {% endif %}
+          <br>
+          <div class=authors>
+            <h5>Author(s):
+          {% for author in authors %}
+              <a href={% url "author_render" comics_title=item.comics_t author_id=author.author_id %}> {{author.author_name}} {{author.author_lastname}}</a>
+          {% endfor %}
+            </h5>
+          </div>
+          <div class="publisher">
+            {% for pub in publisher %}
+              <h5> Publisher:
+                <a href={% url "publisher_render" comics_title=item.comics_t publisher_id=pub.publisher_id %}> {{pub.publisher_name}}</a>
+              </h5>
+            {% endfor %}
+          </div>
+        </div>
+        <div class = "price-holder">
+          <h4>{{item.comics_price}} UAH </h4>
+          <h4>{{item.comics_amount}}</h4>
+        </div>
+        <div class="order-butt">
+          <button type="submit" id="do-order-button">
+            <a href={% url "ordering" comics_title=item.comics_t %}>Order</a>
+          </button>
+        </div>
+      </div>
+    {%endfor%}
+  </div>
+
+{%endblock%}

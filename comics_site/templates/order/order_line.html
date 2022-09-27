@@ -1,0 +1,31 @@
+{% extends "../base.html" %}
+
+{% block sidebar %}
+    <a href={% url "homepage"%}>Main page</a>
+{% endblock %}
+{% block content %}
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  <div class="order-line">
+    <ul>
+      {% for item in order_line %}
+        <li>
+          <h3> User:{{item.order_id.user_id.user_login}}</h3>
+          <h5> Customer name :{{item.order_id.name}} {{item.order_id.lastname}}</h5>
+          <h5> Address : {{item.order_id.address}}</h5>
+          <h5> Comics : {{item.comics_id.comics_t}}</h5>
+          <button type="submit" id="manage-order-button">
+            <a href={% url "manage_order_line" id=item.order_id.order_id %}>Manage</a>
+          </button>
+        </li>
+      {% empty %}
+        <h1> Order line is empty</h1>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

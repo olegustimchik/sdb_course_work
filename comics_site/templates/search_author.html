@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{%block sidebar %}
+  <a href={% url "homepage"%}>Main page</a>
+  <div class="search-container">
+    <form class="search-box" method=POST action = {%url 'search_author'%}>
+      {% csrf_token%}
+      <button type="submit" id="search">SEARCH</button>
+      <input type="search"  placeholder="Write author name or lastname" name="search-data">
+    </form>
+  </div>
+{%endblock%}
+
+{% block content %}
+  <div class = "authors_line">
+    <ul>
+  {%for item in authors %}
+    <li>
+      <div class = "author_item">
+          <h5>
+            <a href={% url "author" id=item.author_id %}> {{item.author_name}} {{item.author_lastname}}</a>
+          </h5>
+      </div>
+    </li>
+    {% empty %}
+      <h5>DON'T FOUND ANY RESULT</h5>
+    {%endfor%}
+    </ul>
+  </div>
+{% endblock %}

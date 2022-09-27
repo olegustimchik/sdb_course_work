@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{%block sidebar %}
+  {% if request.session.user_role == 1 %}
+    <a href={% url "add_comics"%}>Add new comics</a>
+    <a href={% url "add_author" %}>  Add new Author</a>
+    <a href={% url "add_publisher"%}>  Add new publisher</a>
+    <a href={% url "see_orderline" %}> Order Line</a>
+    <br></br>
+  {% endif %}
+  {% if request.session.user_login %}
+    <a href={% url "logout"%}>Logout</a>
+    <a href={% url "order-history"%}>History</a>
+    <a href={% url "profile_information"%}>Profile</a>
+    <a href={% url "authors"%}>Authors</a>
+    <a href={% url "publishers"%}>Publishers</a>
+  {% else %}
+    <a href={% url "registr"%}>REGISTRATION</a>
+    <a href={% url "sign_in"%}>Sign in</a>
+  {% endif %}
+  <div class="search-container">
+    <form class="search-box" method=POST action = {%url 'search-comics'%}>
+      {% csrf_token%}
+      <button type="submit" id="search">SEARCH</button>
+      <!--<label for="comics search">Write comics title</label>-->
+      <input type="search"  placeholder="Write comics title" name="search-data">
+    </form>
+  </div>
+{%endblock%}
+
+{% block content%}
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+    <div class = "comics_line">
+    {%for item in comics_item %}
+      <div class = "comics_item">
+        <div class="comcis_item_img">
+          <img src="{% static item.path_image %}"  alt="comics image" weight=500 height=800>
+        </div>
+        <div class="comics_item_und_img">
+          <h5>
+            <a href={% url "comics_render" comics_title=item.comics_t %}> {{item.comics_t}}</a>
+          </h5>
+        </div>
+      </div>
+      {% empty %}
+        <h1> BOOOM</h1>
+      {%endfor%}
+      <button type="submit" id="load-more-data">
+        <a href={% url "all_comics" %}>Load more</a>
+      </button>
+    </div>
+{%endblock%}

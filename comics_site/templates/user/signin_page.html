@@ -1,0 +1,30 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% block sidebar %}
+    <a href={% url "homepage"%}>Main page</a>
+{% endblock %}
+
+
+{%block content %}
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+ {% if request.session.user_login %}
+    <h3>You already log in </h3>
+    <a href={% url "logout"%}>Logout</a>
+  {% else %}
+  <div class="sign_in">
+    <form class="search-box" method=POST action = {%url "sign_in"%}>
+      {% csrf_token%}
+      {{form.as_p}}
+      <button type="submit" id="sign_in">Sign in</button>
+    </form>
+  </div>
+  {% endif %}
+
+{%endblock%}

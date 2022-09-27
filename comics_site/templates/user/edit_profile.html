@@ -1,0 +1,17 @@
+{% extends "../base.html" %}
+
+{% block sidebar %}
+    <a href={% url "homepage"%}>Main page</a>
+{% endblock %}
+{% block content %}
+  <div class="user-info">
+    <form method="POST" action="">
+      {% csrf_token%}
+      {{form.as_p}}
+      <button type="submit" id="edit_profile">Edit</button>
+    </form>
+    <button type="submit" id="cancel-button">
+      <a href={% url "homepage" %}>Cancel</a>
+    </button>
+  </div>
+{% endblock %}

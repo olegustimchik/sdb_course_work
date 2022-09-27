@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{%block sidebar %}
+  {% if request.session.user_login %}
+    <a href={% url "logout"%}>Logout</a>
+    <a href={% url "order-history"%}>History</a>
+    <a href={% url "profile_information"%}>Profile</a>
+    <a href={% url "edit_profile"%}>Edit profile</a>
+    <a href={% url "authors"%}>Authors</a>
+    <a href={% url "all_comics"%}>All comics</a>
+  {% else %}
+    <a href={% url "registr"%}>REGISTRATION</a>
+    <a href={% url "sign_in"%}>Sign in</a>
+  {% endif %}
+  <div class="search-container">
+    <form class="search-box" method=POST action = "">
+      {% csrf_token%}
+      <button type="submit" id="search">SEARCH</button>
+      <!--<label for="comics search">Write comics title</label>-->
+      <input type="search"  placeholder="Write publisher name" name="search-data">
+    </form>
+  </div>
+{%endblock%}
+
+{% block content%}
+    <div class = "publisher_line">
+      {% if request.session.user_role == 1 %}
+        <button type="submit" id="do-order-button">
+          <a href={% url "add_publisher" %}>Add New Publisher</a>
+        </button>
+      {%endif%}
+      <ul>
+    {%for item in publishers %}
+      <li>
+        <div class = "publisher_item">
+          <div class="publisher_item_link">
+            <h5>
+              <a href={% url "publisher_page" id=item.publisher_id %}> {{item.publisher_name}}</a>
+            </h5>
+          </div>
+        </div>
+      </li>
+      {%endfor%}
+      </ul>
+    </div>
+{%endblock%}

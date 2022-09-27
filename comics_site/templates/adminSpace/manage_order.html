@@ -1,0 +1,34 @@
+{% extends "../base.html" %}
+
+{% block sidebar %}
+    <a href={% url "homepage"%}>Main page</a>
+{% endblock %}
+{% block content %}
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+    <h2> User: {{order_item.user_id.user_login}}</h2>
+    <h3> Customer name: {{order_item.name}} {{order_item.lastname}}</h3>
+    <h3> Address: {{order_item.address}}</h3>
+    <h3> Mob. number: {{order_item.number}}</h3>
+    <h3> Comics : <a href={% url "comics_render" comics_title=order_item.comics_id.comics_t %}>{{order_item.comics_id.comics_t}}</a> </h3>
+    <h3> Price: {{order_item.comics_id.comics_price}}</h3>
+  <div class="order-mange-form">
+    <form method="POST">
+      {% csrf_token%}
+      {{form.as_p}}
+      <label for="comment" >Comment</label>
+      <input type="text" name="comment" id="comment" placeholder="comment">
+      <p>
+      <button type="submit" id="save-order-inf">Save</button>
+      </p>
+    </form>
+    <button type="submit" id="cancel-button">
+      <a href={% url "homepage" %}>Cancel</a>
+    </button>
+  </div>
+{% endblock %}

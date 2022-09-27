@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{%block sidebar %}
+  <a href={% url "homepage"%}>Main page</a>
+  <div class="search-container">
+    <form class="search-box" method=POST action = {%url "search-comics"%}>
+      {% csrf_token%}
+      <button type="submit" id="search">SEARCH</button>
+      <!--<label for="comics search">Write comics title</label>-->
+      <input type="search"  placeholder="Write comics title" name="search-data">
+    </form>
+  </div>
+{%endblock%}
+
+{% block content %}
+    <div class = "comics_line">
+    {%for item in comics_item %}
+      <div class = "comics_item">
+        <div class="comcis_item_img">
+          <img src="{% static item.path_image %}"  alt="comics image" weidth=500 height=800>
+        </div>
+        <div class="comics_item_und_img">
+          <h5>
+            <a href={% url "comics_render" comics_title=item.comics_t %}> {{item.comics_t}}</a>
+          </h5>
+        </div>
+      </div>
+    {% empty %}
+      <h5>DON'T FOUND ANY RESULT</h5>
+    {%endfor%}
+    </div>
+
+{% endblock %}

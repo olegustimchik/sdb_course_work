@@ -1,0 +1,27 @@
+{% extends "base.html" % }
+{% load static %}
+
+{%block sidebar %}
+  <a href={% url "homepage"%}>Main page</a>
+{% endblock %}
+
+{% block content %}
+  <div class = "author-inf-place">
+  {%for inf in author %}
+      <div class="author-name">
+        <h3> {{inf.author_name}} {{inf.author_lastname}}</h3>
+        <h5> {{inf.author_birth}}</h5>
+        {% if request.session.user_role == 1 %}
+          <h5>(<a href={% url "delete_item" _code_=2 name=inf.author_id %}>Delete</a>)
+              (<a href={% url "edit_author" id=inf.author_id %}>Edit</a>)
+          </h5>
+        {% endif %}
+      </div>
+      <div class="about-author">
+        <h5>
+          {{inf.about}}
+        </h5>
+      </div>
+    {%endfor%}
+  </div>
+{%endblock%}

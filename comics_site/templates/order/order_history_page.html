@@ -1,0 +1,34 @@
+{% extends "../base.html" %}
+
+{% load static  %}
+{% block sidebar %}
+    <a href={% url "homepage"%}>Main page</a>
+{% endblock %}
+
+{% block content %}
+  <div class="order-history-page">
+     {% for item in order_item %}
+     <div class = "comics_item">
+       <div class="comcis_item_img">
+         <img src="{% static item.order_id.comics_id.path_image %}"  alt="comics image" width=300 height=450>
+       </div>
+       <div class="comics_item_und_img">
+         <h3>
+           <a href={% url "comics_render" comics_title=item.order_id.comics_id.comics_t %}> {{item.order_id.comics_id.comics_t}}</a>
+         </h3>
+       </div>
+      </div>
+      <div class="order-information">
+        <h3>Address:{{item.order_id.address}}</h3>
+        <h3>Customer:{{item.order_id.name}} {{item.order_id.lastname}}</h3>
+        <h3>Price: {{item.order_id.comics_id.comics_price}} </h3>
+        <h3>Order date: {{item.order_id.order_date}} </h3>
+        <h3>Status: {{item.status_id.status_name}} </h3>
+        {% if item.comment %}
+          <p>
+            <h3>Comment: {{item.comment}}</h3>
+        {%endif%}
+      </div>
+     {% endfor %}
+  </div>
+{% endblock %}

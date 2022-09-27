@@ -1,0 +1,23 @@
+{% extends "../base.html" %}
+
+{% block sidebar %}
+    <a href={% url "homepage"%}>Main page</a>
+{% endblock %}
+
+{% block content %}
+  <div class='profile-page-information'>
+    <h1>Your profile information</h1>
+    <ul>
+      <li>User name: {{user.user_name}} {{user.user_lastname}} </li>
+      <li>Login : {{user.user_login}}</li>
+      <li>Email : {{user.user_email}}</li>
+      <li>Mob. number: {{user.user_mobile}}</li>
+    </ul>
+    <div class="change-information-about-user">
+      <button type="submit" id="do-order-button">
+        <a href={% url "edit_profile"%}>Edit profile</a>
+      </button>
+    </div>
+
+  </div>
+{% endblock %}
